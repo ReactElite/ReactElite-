@@ -1,0 +1,28 @@
+name: ReactElite Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+      - name: Run tests
+        run: npm test
+      - name: Deploy to hosting service
+        uses: some-hosting-service/action@v1
+        with:
+          args: deploy
+      - name: Send notification
+        if: always()
+        uses: some-notification-service/action@v1
+        with:
+          status: ${{ job.status }}
